@@ -1,9 +1,7 @@
 import asyncdispatch
 import asyncnet
-import macaddress
 import logging
 import json
-from hex import nil
 
 type
     Callback = proc(json: var JsonNode): JsonNode
@@ -51,7 +49,8 @@ proc serveConnectionHeader(self: var IPCServer, connection: AsyncSocket) =
             try:
                 response = server.callback(json)
             except:
-                error("Error handling command: $1 error: $2", future2.read, getCurrentExceptionMsg())
+                error("Error handling command: $1 error: $2 stack: $3",
+                    future2.read, getCurrentExceptionMsg(), getStackTrace(getCurrentException()))
                 response = %*{"status": "error", "message": getCurrentExceptionMsg()}
             var serialized = $response
             var responseHeader = newString(sizeof(uint32))

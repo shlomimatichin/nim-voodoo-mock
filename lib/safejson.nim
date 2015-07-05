@@ -6,8 +6,10 @@ export json.`%*`
 export json.`%`
 export json.newJObject
 export json.newJString
+export json.newJArray
 export json.`[]=`
 export json.`$`
+export json.add
 
 proc `[]`*(node: JsonNode; name: string): JsonNode {.raises: [], tags: [].} =
     if node == nil:
